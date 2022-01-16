@@ -45,6 +45,7 @@ public class ArchivoController {
         return list;
     }
 
+
     //@RequestMapping(value = "/download", method = RequestMethod.GET)
    // @RequestMapping("/txt/{fileName:.+}")
     @RequestMapping(value="/txt", method = RequestMethod.GET)

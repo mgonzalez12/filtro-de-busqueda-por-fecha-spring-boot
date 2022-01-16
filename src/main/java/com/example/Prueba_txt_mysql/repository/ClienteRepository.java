@@ -19,10 +19,10 @@ public class ClienteRepository {
     public List<Cliente> listAllCustomer(Cliente cliente){
         try {
             StringBuilder query = new StringBuilder();
-            query.append("SELECT * FROM mydatabase.tbl_laptops");
+           // query.append("SELECT * FROM mydatabase.tbl_laptops");
             //query.append("SELECT * FROM mydatabase.tbl_laptops where dni = '"+ cliente.getNumeroDocumento() + "'");
-            // query.append(" SELECT * FROM mydatabase.tbl_laptops WHERE dni='"+ cliente.getNumeroDocumento() + "' and created_at BETWEEN '"
-            //                + cliente.getFechaInicio() + "' AND '" +cliente.getFechaFinal() + "'" );
+             query.append(" SELECT * FROM mydatabase.tbl_laptops WHERE dni='"+ cliente.getNumeroDocumento() + "' and created_at BETWEEN '"
+                           + cliente.getFechaInicio() + "' AND '" +cliente.getFechaFinal() + "'" );
 
           //  query.append("WHERE 1 = 1");
           //  UtilQuerySQL.whereNumero(query, "CP.COD_PRODUCTO", objBean.getCodigoProducto());
