@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+
+    <title>Formulario de Busqueda</title>
+</head>
+<body>
+
+
+<div class="container mt-3">
+    <div class="row">
+        <form th:action="@{/laptops/create}" th:object="${archivo}" method="post"  class="row g-3 needs-validation" id="form1" novalidate>
+            <div class="row">
+                <div class="col-md-4">
+                    <label>DNI</label>
+                    <input type="text" class="form-control" th:name="numeroDocumento" id="numeroDocumento" />
+                </div>
+                <div class="col-md-4">
+                    <label>Desde</label>
+                    <input type="date" class="form-control" th:name="fechaInicio" id="fechaInicio"  />
+                </div>
+                <div class="col-md-4">
+                    <label>Hasta</label>
+                    <input type="date" class="form-control"  th:name="fechaFinal" id="fechaFinal"  />
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <button type="button" id="btnBuscar" class="btn btn-primary">Buscar</button>
+                    <button type="button" id="btnDownload" class="btn btn-primary">Descargar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <table>
+                <thead>
+                     <th>Nombre</th>
+                     <th>Fecha</th>
+                </thead>
+                <tbody id="tableCst">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.fileDownload/1.4.2/jquery.fileDownload.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#btnBuscar").click(function(){
+
+            $.ajax({
+                    url: '/list',
+                    type: 'post',
+                    data:$("#form1").serialize(),
+                    success: function(response) {
+
+                        var template = "";
+
+                           $.each(response,function(item,value){
+                                template += '<tr><td>'+value.nombre +'</td><td>'+value.fechaInicio+'</td></tr>';
+                           });
+
+                        $("#tableCst").html(template);
+                    }
+                })
+        });
+
+        $("#btnDownload").click(function(){
+           $.fileDownload('/txt', {
+                    httpMethod: 'GET',
+                    dataType: "json",
+                   // contentType: "application/json",
+                    data: {
+                        fileName: "ARCHIVO.TXT",
+                        nroDocumento: $("#nroDocumento").val(),
+                        fechaInicio: $("#fechaInicio").val(),
+                        fechaFinal: $("#fechaFinal").val(),
+                    },
+                    successCallback: function (url) {
+
+                    },
+                    failCallback: function (responseHtml, url) {
+
+                    }
+                });
+        });
+    });
+</script>
+</body>
+</html>
